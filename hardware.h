@@ -3,6 +3,8 @@
 
 //Librerias externas 
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
 //Mapeo LED fisico (GPIO)
 #define LED_0 17
