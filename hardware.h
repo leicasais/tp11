@@ -16,6 +16,11 @@
 #define LED_6 22
 #define LED_7 27
 
+//MACROS
+#define OVERFLOW_NUM_PIN -2
+#define EXPORT_ERROR -1
+#define OPEN_FILE_ERROR -3
+
 typedef struct{//Funciona para little endian
     uint8_t led_0 :1;
     uint8_t led_1 :1;
