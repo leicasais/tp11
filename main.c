@@ -13,12 +13,12 @@ int main(void)
     
     do
     {
-         printf("Ingrese un número entre 0 y 7 para encender el led correspondiente, t para que los LEDs cambien al estado opuesto, c para apagarlos todos, s para prenderlos todos o 'q' para salir.\n");
-     scanf(" %c", &input);
-     if (input>=0 && input<=7) {
+        printf("Ingrese un número entre 0 y 7 para encender el led correspondiente, t para que los LEDs cambien al estado opuesto, c para apagarlos todos, s para prenderlos todos o 'q' para salir.\n");
+        scanf(" %c", &input);
+        if (input>=0 && input<=7) {
             int led_num = input - '0'; // Convertir el carácter a número
             BITSET(leds.puerto,led_num); // Actualiza el estado del LED
-            }
+        }
         else if (input == 'q') {
             TTOGGLE(leds.puerto);//cambia el estado de todas las leds
         }
@@ -33,13 +33,13 @@ int main(void)
             printf("Entrada no válida. Intentelo de nuevo\n");
         }  
     } while (input != 'q');
-    
-}
-for (int i = 0; i<8; i++){
-    if (BITGET(leds.puerto, i)){
-        export_pin(gpio_leds[i]);
-        setout(gpio_leds[i]);
-        SetPin(gpio_leds[i], "1"); // Enciende el LED
-        unexport_pin(gpio_leds[i]); // Desexporta el pin después de usarlo
-    }
+
+    for (int i = 0; i<8; i++){
+        if (BITGET(leds.puerto, i)){
+            export_pin(gpio_leds[i]);
+            setout(gpio_leds[i]);
+            SetPin(gpio_leds[i], "1"); // Enciende el LED
+            unexport_pin(gpio_leds[i]); // Desexporta el pin después de usarlo
+        }
+    }   
 }
