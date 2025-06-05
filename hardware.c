@@ -71,6 +71,7 @@ void SetPin(const int num_pin,const char* State){
         printf("El documento %s se Seteo con el estado %s \n",ppin_str,State);
     }
     fclose(doc);
+
 }
 
 void unexport_pin(const int num_pin){
@@ -111,4 +112,5 @@ void SET_OFF(const int num_pin){
     setout(num_pin);
     SetPin(num_pin, value);
     unexport_pin(num_pin); // Unexport after setting the pin
+
 }
