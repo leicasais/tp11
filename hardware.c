@@ -63,4 +63,5 @@ void SetPin(const int num_pin,const int State){
     else{
         printf("El documento %s se Seteo con el estado %d",buffer,State);
     }
+    fclose(doc);
 }
