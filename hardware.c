@@ -99,6 +99,16 @@ void unexport_pin(const int num_pin){
     fclose(doc);
 }
 
+void sincronizar_estado(leds_t puerto_leds, estado_bits_t estado_leds[8]) {
+    for (int i = 0; i < 8; i++) {
+        if (BITGET(puerto_leds.puerto, i)) {
+            estado_leds[i].value_now = '1';
+        } else {
+            estado_leds[i].value_now = '0';
+        }
+    }
+}
+
 void SET_ON(const int num_pin){
     char * value="1";
     export_pin(num_pin);
