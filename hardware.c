@@ -1,6 +1,5 @@
 #include "hardware.h"
 
-
 void export_pin(const int num_pin){
     FILE *doc;
     char ppin_str[4];//Capacidad maxima  caracteres, 4 CONTANDO EL TERMINADOR ()
@@ -12,12 +11,12 @@ void export_pin(const int num_pin){
     }
 
     if((doc = fopen("/sys/class/gpio/export","w")) == NULL){
-        printf("No se pudo exportar el pin %d. Intente mas tarde\n", num_pin);
+        printf("No se pudo exportar el pin %d. Intente mas tarde: %s", num_pin, strerror(errno)); // strerror(errno) devuelve una cadena que describe el error, errno es una variable global que almacena el último numero de error ocurrido
         exit(OPEN_FILE_ERROR);
     }
 
     if (fputs(ppin_str,doc)==EOF){
-        printf("no se puede exportar el pin %s\n", ppin_str);
+        printf("no se puede exportar el pin %s: %s", ppin_str, strerror(errno));
         exit(EXPORT_ERROR);
     }
     else{
@@ -35,16 +34,16 @@ void setout(const int num_pin){
         exit(OVERFLOW_NUM_PIN);
     }
 
-    if((doc=fopen(ppin_str,"w"))==NULL){                                                //Veo si puedo abrir el archivo con exito
-        perror("No se pudo acceder a la direccion del pin\n");
+    if((doc=fopen(ppin_str,"w"))==NULL){//Veo si puedo abrir el archivo con exito
+        printf("No se pudo abrir el archivo del pin %s. Intente mas tarde: %s\n", num_pin, strerror(errno));
         exit(OPEN_FILE_ERROR);
     }
-    if((fputs("out",doc)==EOF)){                                            //Veo si puedo escribir el archivo
-        perror("No se pudo abrir la direccion del pin\n");
+    if((fputs("out",doc)==EOF)){//Veo si puedo escribir el archivo
+        printf("No se pudo escribir la direccion del pin %s. Intente mas tarde: %s\n", ppin_str, strerror(errno));
         exit(DIRECTION_ERROR);
     }
     else{
-        printf("El documento para el PIN se abrio exitosamente\n");               //  
+        printf("El documento para el PIN %s se abrio exitosamente\n", ppin_str);
     }
     fclose(doc);
 }
@@ -58,14 +57,11 @@ void SetPin(const int num_pin,const char* State){
         exit(OVERFLOW_NUM_PIN);
     }
     if(((doc=fopen(ppin_str,"w")) == NULL)){
-        perror("No se pudo abrir la carpeta para modificar el value\n");
+        printf("No se pudo abrir el archivo del pin %s. Intente mas tarde: %s\n", ppin_str, strerror(errno));
         exit(OPEN_FILE_ERROR);
     }
-    else{
-        printf("Documento abierto exitosamente\n");
-    }
-    if(fputs(State,doc)==-1){
-        perror("No se pudo escribir en el archivo\n");
+    if(fputs(State,doc)==EOF){
+        printf("No se pudo escribir en el archivo: %s\n", strerror(errno));
     }
     else{
         printf("El documento %s se Seteo con el estado %s \n",ppin_str,State);
@@ -85,28 +81,18 @@ void unexport_pin(const int num_pin){
     }
 
     if((doc = fopen("/sys/class/gpio/unexport","w")) == NULL){
-        printf("No se pudo unexportar el pin %d. Intente mas tarde\n", num_pin);
+        printf("No se pudo unexportar el pin %d. Intente mas tarde: %s\n", num_pin, strerror(errno));
         exit(OPEN_FILE_ERROR);
     }
 
     if (fputs(ppin_str,doc)==EOF){
-        printf("no se puede unexportar el pin %s\n", ppin_str);
+        printf("no se puede unexportar el pin %s: %s\n", ppin_str, strerror(errno));
         exit(UNEXPORT_ERROR);
     }
     else{
         printf("Se unexporto corectamente\n");
     }
     fclose(doc);
-}
-
-void sincronizar_estado(leds_t puerto_leds, estado_bits_t estado_leds[8]) {
-    for (int i = 0; i < 8; i++) {
-        if (BITGET(puerto_leds.puerto, i)) {
-            estado_leds[i].value_now = '1';
-        } else {
-            estado_leds[i].value_now = '0';
-        }
-    }
 }
 
 void SET_ON(const int num_pin){

@@ -8,8 +8,6 @@ int main(void)
     char input;
     leds_t leds;
     leds.puerto = 0; // Inicializa el puerto a 0 (todos los LEDs apagados)
-
-    //DEfino los bits de los leds
     
     int gpio_leds[] = {LED_0, LED_1, LED_2, LED_3, LED_4, LED_5, LED_6, LED_7};
     
