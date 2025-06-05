@@ -21,6 +21,10 @@
 #define EXPORT_ERROR -1
 #define OPEN_FILE_ERROR -3
 
+//Prototipos
+void eport_pin(const int num_pin);
+
+
 typedef struct{//Funciona para little endian
     uint8_t led_0 :1;
     uint8_t led_1 :1;
