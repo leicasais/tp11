@@ -43,7 +43,7 @@ void setout(const int num_pin){
         exit(DIRECTION_ERROR);
     }
     else{
-        printf("El documento para el PIN %d se abrio exitosamente\n", num_pin);
+        printf("El documento para el puerto gpio %d se abrio exitosamente\n", num_pin);
     }
     fclose(doc);
 }
@@ -64,7 +64,7 @@ void SetPin(const int num_pin,const char* State){
         printf("No se pudo escribir en el archivo: %s\n", strerror(errno));
     }
     else{
-        printf("El documento %d se Seteo con el estado %s \n",num_pin,State);
+        printf("El puerto gpio %d se Seteo con el estado %s \n",num_pin,State);
     }
     fclose(doc);
 
@@ -90,7 +90,7 @@ void unexport_pin(const int num_pin){
         exit(UNEXPORT_ERROR);
     }
     else{
-        printf("Se unexporto corectamente\n");
+        printf("El puerto gpio %d se unexporto corectamente\n", num_pin);
     }
     fclose(doc);
 }
