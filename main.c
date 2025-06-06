@@ -22,7 +22,7 @@ int main(void)
             SetPin(gpio_leds[led_num], "1"); // Enciende el LED
         }
         else if (input == 'q') {
-            TTOGGLE(puerto);//cambia el estado de todas las leds
+            TOGGLE(puerto);//cambia el estado de todas las leds
             actualizacion_leds_de_puerto(gpio_leds, puerto);
         }
         else if(input=='c'){
