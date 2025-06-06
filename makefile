@@ -9,4 +9,4 @@ hardware.o: hardware.c hardware.h
 	${cc} hardware.c -c 
 
 clean:
-	rm * .o
+	rm * .o tp11

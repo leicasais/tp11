@@ -16,7 +16,7 @@ void export_pin(const int num_pin){
     }
 
     if (fputs(ppin_str,doc)==EOF){
-        printf("no se puede exportar el pin %s: %s", ppin_str, strerror(errno));
+        printf("no se puede exportar el pin %d: %s", num_pin, strerror(errno));
         exit(EXPORT_ERROR);
     }
     else{
@@ -35,15 +35,15 @@ void setout(const int num_pin){
     }
 
     if((doc=fopen(ppin_str,"w"))==NULL){//Veo si puedo abrir el archivo con exito
-        printf("No se pudo abrir el archivo del pin %s. Intente mas tarde: %s\n", num_pin, strerror(errno));
+        printf("No se pudo abrir el archivo del pin %d. Intente mas tarde: %s\n", num_pin, strerror(errno));
         exit(OPEN_FILE_ERROR);
     }
     if((fputs("out",doc)==EOF)){//Veo si puedo escribir el archivo
-        printf("No se pudo escribir la direccion del pin %s. Intente mas tarde: %s\n", ppin_str, strerror(errno));
+        printf("No se pudo escribir la direccion del pin %d. Intente mas tarde: %s\n", num_pin, strerror(errno));
         exit(DIRECTION_ERROR);
     }
     else{
-        printf("El documento para el PIN %s se abrio exitosamente\n", ppin_str);
+        printf("El documento para el PIN %d se abrio exitosamente\n", num_pin);
     }
     fclose(doc);
 }
@@ -57,14 +57,14 @@ void SetPin(const int num_pin,const char* State){
         exit(OVERFLOW_NUM_PIN);
     }
     if(((doc=fopen(ppin_str,"w")) == NULL)){
-        printf("No se pudo abrir el archivo del pin %s. Intente mas tarde: %s\n", ppin_str, strerror(errno));
+        printf("No se pudo abrir el archivo del pin %d. Intente mas tarde: %s\n", num_pin, strerror(errno));
         exit(OPEN_FILE_ERROR);
     }
     if(fputs(State,doc)==EOF){
         printf("No se pudo escribir en el archivo: %s\n", strerror(errno));
     }
     else{
-        printf("El documento %s se Seteo con el estado %s \n",ppin_str,State);
+        printf("El documento %d se Seteo con el estado %s \n",num_pin,State);
     }
     fclose(doc);
 
@@ -86,7 +86,7 @@ void unexport_pin(const int num_pin){
     }
 
     if (fputs(ppin_str,doc)==EOF){
-        printf("no se puede unexportar el pin %s: %s\n", ppin_str, strerror(errno));
+        printf("no se puede unexportar el pin %d: %s\n", num_pin, strerror(errno));
         exit(UNEXPORT_ERROR);
     }
     else{
@@ -95,18 +95,14 @@ void unexport_pin(const int num_pin){
     fclose(doc);
 }
 
-void SET_ON(const int num_pin){
-    char * value="1";
-    export_pin(num_pin);
-    setout(num_pin);
-    SetPin(num_pin, value);
-    unexport_pin(num_pin); // Unexport after setting the pin
+void actualizacion_leds_de_puerto(const int *gpio_leds, uint8_t puerto){
+    for (int i = 0; i<(sizeof(puerto)*8); i++){
+        if (BITGET(puerto, i)){
+            SetPin(gpio_leds[i], "1"); // Enciende el LED
+        }
+        else{
+            SetPin(gpio_leds[i], "0");//Apaga el LED
+        }
+    }    
 }
-void SET_OFF(const int num_pin){
-    char * value="0";
-    export_pin(num_pin);
-    setout(num_pin);
-    SetPin(num_pin, value);
-    unexport_pin(num_pin); // Unexport after setting the pin
 
-}

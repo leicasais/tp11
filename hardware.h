@@ -31,27 +31,9 @@
 void export_pin(const int num_pin);
 void setout(const int num_pin);
 void SetPin(const int num_pin,const char* State);
-void SET_ON(const int num_pin);//BORRAR DESPUES
-void SET_OFF(const int num_pin);//BORRAR DESPUES
 void unexport_pin(const int num_pin);
+void actualizacion_leds_de_puerto(const int *gpio_leds, uint8_t puerto);
 
-//Estructuras y uniones
-typedef struct{//Funciona para little endian (CREO QUE ESTA AL PEDO)
-    uint8_t led_0 :1;
-    uint8_t led_1 :1;
-    uint8_t led_2 :1;
-    uint8_t led_3 :1;
-    uint8_t led_4 :1;
-    uint8_t led_5 :1;
-    uint8_t led_6 :1;
-    uint8_t led_7 :1;
-
-}bits_t;
-
-typedef union{
-	 bits_t bit;
-	 uint8_t puerto;
-}leds_t;
 
 //Funciones para el manejo de bits, 1 byte o 2 bytes
 #define BITSET(puerto, n) ((puerto)=(TAMANO((puerto),((puerto) | (1<<(n)))))) /*Prende el bit indicado sin modificar el resto del registro*/
